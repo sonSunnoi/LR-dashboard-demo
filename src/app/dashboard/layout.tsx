@@ -43,7 +43,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             >
                 <Navigation collapsed={collapsed} onMenuClick={handleClick} />
             </Sider>
-            <Layout className="h-screen" onClick={handleClick}>
+            <Layout
+                className="h-screen overflow-x-hidden overflow-y-scroll"
+                onClick={handleClick}
+            >
                 <DashboardHeader
                     collapsed={collapsed}
                     onToggleButtonClick={(e) => {

@@ -1,7 +1,10 @@
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 
+import { GetGatesResponse } from '../api/gates'
+import { Gate } from '../models'
 import { ColorKey, ColorSettings } from '../models/settings'
+import { GateState } from '../models/state'
 
 dayjs.extend(duration)
 
@@ -28,4 +31,16 @@ export const processColor = (values: ColorSettings) => {
     }
 
     return processedValues
+}
+
+export const mapServerGate = (serverGate: GetGatesResponse[number]): Gate => {
+    return {
+        id: serverGate.gateId,
+        displayName: serverGate.gateName,
+        state: serverGate.gateStateName as GateState,
+        orderId: serverGate.orderId?.toString() ?? '',
+        staffName: serverGate.staffName ?? '-',
+        supervisorName: serverGate.foreManName ?? '-',
+        updatedAt: serverGate.timeStart ?? new Date().toString(), // timestamp
+    }
 }

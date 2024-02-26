@@ -1,4 +1,5 @@
 import { Id } from './common'
+import { GateState } from './state'
 
 export interface CompanyEntity {}
 
@@ -24,6 +25,7 @@ export interface Order {
 export interface Gate {
     id: Id
     displayName: string
+    state: GateState
     orderId: string
     staffName: string
     supervisorName: string

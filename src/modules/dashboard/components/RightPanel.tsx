@@ -1,18 +1,16 @@
-import { Col, Row } from 'antd'
+import { HydrationBoundary } from '@tanstack/react-query'
 
-import { MOCK_GATES } from '../mocks/gates'
+import { usePrefetchGatesQuery } from '../queries/gates'
 
-import GateCard from './GateCard'
+import GateList from './GateList'
 
-const RightPanel = () => {
+const RightPanel = async () => {
+    const { state } = await usePrefetchGatesQuery()
+
     return (
-        <Row gutter={[16, 16]}>
-            {MOCK_GATES.map((gate) => (
-                <Col xs={24} sm={12} xxl={6} key={gate.id}>
-                    <GateCard gate={gate} />
-                </Col>
-            ))}
-        </Row>
+        <HydrationBoundary state={state}>
+            <GateList />
+        </HydrationBoundary>
     )
 }
 

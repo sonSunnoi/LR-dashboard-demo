@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: 'Main',
 }
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
     return (
         <Row gutter={[16, 16]}>
             <Col xs={24} md={24} lg={12} xxl={10}>

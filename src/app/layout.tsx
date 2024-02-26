@@ -3,6 +3,8 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import { ConfigProvider } from 'antd'
 import type { Metadata } from 'next'
 
+import ReactQueryProvider from '@/modules/core/providers/ReactQueryProvider'
+
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import '@/assets/css/globals.css'
@@ -21,9 +23,11 @@ const RootLayout = ({
     return (
         <html lang="en">
             <body>
-                <ConfigProvider theme={{ cssVar: true }}>
-                    <AntdRegistry>{children}</AntdRegistry>
-                </ConfigProvider>
+                <ReactQueryProvider>
+                    <ConfigProvider theme={{ cssVar: true }}>
+                        <AntdRegistry>{children}</AntdRegistry>
+                    </ConfigProvider>
+                </ReactQueryProvider>
             </body>
         </html>
     )

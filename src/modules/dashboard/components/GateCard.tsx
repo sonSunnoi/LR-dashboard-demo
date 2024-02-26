@@ -6,29 +6,32 @@ import {
     faUserTie,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { isNonEmptyString } from '@sindresorhus/is'
 import { Card, Skeleton } from 'antd'
 import clsx from 'clsx'
 import { ComponentPropsWithoutRef } from 'react'
 
+import { fallbackColor } from '../constants'
 import useColor from '../hooks/useColor'
 import useIsClient from '../hooks/useIsClient'
 import { Gate } from '../models'
+import { GateState } from '../models/state'
 
 import TimeSpent from './TimeSpent'
-
-const classNames = [
-    'bg-red-500',
-    'bg-orange-400',
-    'bg-green-500',
-    'bg-slate-400',
-]
 
 export interface GateCardProps extends ComponentPropsWithoutRef<typeof Card> {
     gate: Gate
 }
 
 const GateCard = ({ gate, className, ...props }: GateCardProps) => {
-    const { displayName, orderId, staffName, supervisorName, updatedAt } = gate
+    const {
+        displayName,
+        orderId,
+        staffName,
+        supervisorName,
+        state,
+        updatedAt,
+    } = gate
 
     const isClient = useIsClient()
 
@@ -41,7 +44,16 @@ const GateCard = ({ gate, className, ...props }: GateCardProps) => {
                 title: clsx(isClient && 'text-white', 'font-bold text-xl'),
             }}
             className={clsx(isClient && 'text-white', 'h-full', className)}
-            style={isClient ? { backgroundColor: gateColor as string } : {}}
+            style={
+                isClient
+                    ? {
+                          backgroundColor:
+                              state == GateState.Occupied
+                                  ? (gateColor as string)
+                                  : fallbackColor,
+                      }
+                    : {}
+            }
             bordered={false}
             {...props}
         >
@@ -53,13 +65,17 @@ const GateCard = ({ gate, className, ...props }: GateCardProps) => {
                         <strong>
                             <FontAwesomeIcon icon={faClock} />
                         </strong>{' '}
-                        <TimeSpent date={updatedAt} />
+                        {state === GateState.Occupied ? (
+                            <TimeSpent date={updatedAt} />
+                        ) : (
+                            '--:--:--'
+                        )}
                     </p>
                     <p className="text-2xl mb-1">
                         <strong>
                             <FontAwesomeIcon icon={faSnowflake} />
                         </strong>{' '}
-                        #{orderId}
+                        {isNonEmptyString(orderId) ? `#${orderId}` : 'No Order'}
                     </p>
                     <p>
                         <strong>
