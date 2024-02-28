@@ -28,6 +28,7 @@ export const getOrders = async ({
             skip,
             limit,
         },
+        cache: 'no-store',
     })
 
     return response.json<GetOrdersResponse>()

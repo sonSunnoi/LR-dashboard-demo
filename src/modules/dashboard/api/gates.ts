@@ -16,7 +16,7 @@ export type GetGatesResponse = {
 }[]
 
 export const getGates = async () => {
-    const response = await apiClient.get('dashboard')
+    const response = await apiClient.get('dashboard', { cache: 'no-store' })
 
     return response.json<GetGatesResponse>()
 }

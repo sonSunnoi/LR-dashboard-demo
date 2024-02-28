@@ -32,8 +32,11 @@ const GateList = () => {
                     )
                 })
             ) : (
-                <Col>
-                    <Card>
+                <Col span={24}>
+                    <Card
+                        title="Gates"
+                        classNames={{ title: 'text-xl font-bold' }}
+                    >
                         <Result
                             status="500"
                             title="500"
