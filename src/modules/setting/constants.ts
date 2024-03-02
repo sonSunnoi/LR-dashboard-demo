@@ -1,4 +1,4 @@
-import { ColorSettings, Settings, TimeSettings } from './models/settings'
+import { ColorSettings, Settings, TimeSettings } from './models'
 
 export enum StorageKey {
     Settings = 'lr-dashboard-settings',
@@ -17,10 +17,13 @@ export const defaultTime: TimeSettings = {
     danger: 60,
 }
 
+export const stallTimeThreshold = 1
+
 export const defaultSettings: Settings = {
     order: {
         color: defaultColor,
         time: defaultTime,
+        stallTimeThreshold,
     },
     gate: {
         color: defaultColor,

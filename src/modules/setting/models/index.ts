@@ -24,6 +24,7 @@ export type Settings = {
     order: {
         color: ColorSettings
         time: TimeSettings
+        stallTimeThreshold: number
     }
     gate: {
         color: ColorSettings

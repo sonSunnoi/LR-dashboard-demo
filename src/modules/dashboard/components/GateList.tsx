@@ -3,18 +3,18 @@
 import { Button, Card, Col, Result, Row, Skeleton } from 'antd'
 import { range } from 'lodash-es'
 
-import { useGatesQuery } from '../queries/gates'
+import { useDashboardGatesQuery } from '../queries/dashboardGates'
 import { mapServerGate } from '../utils'
 
 import GateCard from './GateCard'
 
 const GateList = () => {
-    const { isLoading, data, isSuccess, refetch } = useGatesQuery()
+    const { isLoading, data, isSuccess, refetch } = useDashboardGatesQuery()
 
     return (
         <Row gutter={[16, 16]}>
             {isLoading &&
-                range(10).map((num) => {
+                range(12).map((num) => {
                     return (
                         <Col xs={24} sm={12} xxl={6} key={num}>
                             <Card title={<Skeleton />}>

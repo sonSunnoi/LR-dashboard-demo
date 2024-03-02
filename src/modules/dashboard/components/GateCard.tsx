@@ -11,9 +11,10 @@ import { Card, Skeleton } from 'antd'
 import clsx from 'clsx'
 import { ComponentPropsWithoutRef } from 'react'
 
-import { fallbackColor } from '../constants'
+import useIsClient from '@/modules/core/hooks/useIsClient'
+import { fallbackColor } from '@/modules/setting/constants'
+
 import useColor from '../hooks/useColor'
-import useIsClient from '../hooks/useIsClient'
 import { Gate } from '../models'
 import { GateState } from '../models/state'
 
@@ -65,7 +66,8 @@ const GateCard = ({ gate, className, ...props }: GateCardProps) => {
                         <strong>
                             <FontAwesomeIcon icon={faClock} />
                         </strong>{' '}
-                        {state === GateState.Occupied ? (
+                        {state === GateState.Occupied &&
+                        isNonEmptyString(orderId) ? (
                             <TimeSpent date={updatedAt} />
                         ) : (
                             '--:--:--'

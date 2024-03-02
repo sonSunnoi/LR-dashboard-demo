@@ -9,11 +9,13 @@ import {
     message,
 } from 'antd'
 import Title from 'antd/es/typography/Title'
+import { capitalize } from 'lodash-es'
 import { useEffect } from 'react'
 
-import useIsClient from '../hooks/useIsClient'
+import useIsClient from '@/modules/core/hooks/useIsClient'
+
 import useSettings from '../hooks/useSettings'
-import { Settings } from '../models/settings'
+import { Settings } from '../models'
 import { processColor } from '../utils'
 
 const SettingsForm = () => {
@@ -25,6 +27,7 @@ const SettingsForm = () => {
 
     const handleFinish = (values: Settings) => {
         let processedValues: Settings = {
+            ...values,
             order: {
                 ...values.order,
                 color: processColor(values.order.color),
@@ -55,6 +58,8 @@ const SettingsForm = () => {
         { title: 'Gate', key: 'gate' },
     ] as const
 
+    const colors = ['success', 'warning', 'danger'] as const
+
     return isClient ? (
         <Form
             name="basic"
@@ -71,29 +76,16 @@ const SettingsForm = () => {
             {sections.map(({ title, key }) => (
                 <>
                     <Title level={3}>{title}</Title>
-                    <Form.Item<Settings>
-                        label="Success Color"
-                        name={[key, 'color', 'success']}
-                        rules={[{ required: true }]}
-                    >
-                        <ColorPicker format="hex" showText />
-                    </Form.Item>
-
-                    <Form.Item<Settings>
-                        label="Warning Color"
-                        name={[key, 'color', 'warning']}
-                        rules={[{ required: true }]}
-                    >
-                        <ColorPicker format="hex" showText />
-                    </Form.Item>
-
-                    <Form.Item<Settings>
-                        label="Danger Color"
-                        name={[key, 'color', 'danger']}
-                        rules={[{ required: true }]}
-                    >
-                        <ColorPicker format="hex" showText />
-                    </Form.Item>
+                    {colors.map((color) => (
+                        <Form.Item<Settings>
+                            label={`${capitalize(color)} Color`}
+                            name={[key, 'color', color]}
+                            rules={[{ required: true }]}
+                            key={color}
+                        >
+                            <ColorPicker format="hex" showText />
+                        </Form.Item>
+                    ))}
 
                     <Form.Item<Settings>
                         label="Warning Time Threshold"
@@ -148,6 +140,17 @@ const SettingsForm = () => {
                     >
                         <InputNumber addonAfter="Minutes" />
                     </Form.Item>
+
+                    {title === 'Order' && (
+                        <Form.Item<Settings>
+                            label="Stall Time Threshold"
+                            name={[key, 'stallTimeThreshold']}
+                            rules={[{ required: true }, { min: 0 }]}
+                            validateFirst
+                        >
+                            <InputNumber addonAfter="Minutes" />
+                        </Form.Item>
+                    )}
                 </>
             ))}
 

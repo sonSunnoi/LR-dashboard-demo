@@ -3,7 +3,7 @@ import { useInterval } from 'ahooks'
 import dayjs from 'dayjs'
 import { ComponentPropsWithoutRef, useState } from 'react'
 
-import { getDurationTextUntilNow } from '../utils'
+import { getDurationTextUntilNow } from '@/modules/core/utils'
 
 export interface TimeSpentProps extends ComponentPropsWithoutRef<'span'> {
     date: Parameters<typeof dayjs>[0]

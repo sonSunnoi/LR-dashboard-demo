@@ -1,11 +1,11 @@
 import { HydrationBoundary } from '@tanstack/react-query'
 
-import { usePrefetchGatesQuery } from '../queries/gates'
+import { usePrefetchDashboardGatesQuery } from '../queries/dashboardGates'
 
 import GateList from './GateList'
 
 const RightPanel = async () => {
-    const { state } = await usePrefetchGatesQuery()
+    const { state } = await usePrefetchDashboardGatesQuery()
 
     return (
         <HydrationBoundary state={state}>

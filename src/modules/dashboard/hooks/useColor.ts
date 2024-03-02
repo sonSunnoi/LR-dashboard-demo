@@ -2,12 +2,15 @@ import { useInterval } from 'ahooks'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 
-import { defaultColor, defaultTime, fallbackColor } from '../constants'
-import { Settings } from '../models/settings'
-import { getDurationUntilNow } from '../utils'
-
-import useIsClient from './useIsClient'
-import useSettings from './useSettings'
+import useIsClient from '@/modules/core/hooks/useIsClient'
+import { getDurationUntilNow } from '@/modules/core/utils'
+import {
+    defaultColor,
+    defaultTime,
+    fallbackColor,
+} from '@/modules/setting/constants'
+import useSettings from '@/modules/setting/hooks/useSettings'
+import { Settings } from '@/modules/setting/models'
 
 export interface UseColorProps {
     date: Parameters<typeof dayjs>[0]
