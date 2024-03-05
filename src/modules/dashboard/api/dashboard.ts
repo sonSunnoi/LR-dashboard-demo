@@ -15,6 +15,11 @@ export type GetDashboardGatesResponse = {
     vehicleTypeName: string | null
 }[]
 
+export interface GetDashboardOrdersParams
+    extends Record<string, string | number> {
+    stallTimeThreshold: number
+}
+
 export type GetDashboardOrdersResponse = {
     orderId: number
     staffName: string
@@ -28,8 +33,13 @@ export const getDashboardGates = async () => {
     return response.json<GetDashboardGatesResponse>()
 }
 
-export const getDashboardOrders = async () => {
-    const response = await apiClient.get('dashboard/current_transaction', { cache: 'no-store' })
+export const getDashboardOrders = async (
+    params: GetDashboardOrdersParams = { stallTimeThreshold: 0 },
+) => {
+    const response = await apiClient.get('dashboard/current_transaction', {
+        cache: 'no-store',
+        searchParams: params,
+    })
 
     return response.json<GetDashboardOrdersResponse>()
 }

@@ -1,21 +1,21 @@
 'use client'
-import { Card, List, Skeleton } from 'antd'
-import { useEffect, useState } from 'react'
+import { Card, Empty, List, Skeleton } from 'antd'
 
-import { MOCK_ORDERS } from '../mocks/orders'
-import { Order } from '../models'
-// import { useDashboardOrdersQuery } from '../queries/dashboardOrders'
+import useSettings from '@/modules/setting/hooks/useSettings'
+
+import { useDashboardOrdersQuery } from '../queries/dashboardOrders'
+import { mapServerOrder } from '../utils'
 
 import OrderItem from './OrderItem'
 
 const OrderList = () => {
-    // TODO: Use the actual server API
-    // useDashboardOrdersQuery()
-    const [data, setData] = useState<Order[]>([])
-
-    useEffect(() => {
-        setData(MOCK_ORDERS)
-    }, [])
+    const { settings } = useSettings()
+    const {
+        order: { stallTimeThreshold },
+    } = settings || { order: { stallTimeThreshold: 0 } }
+    const { data, isLoading } = useDashboardOrdersQuery({
+        stallTimeThreshold: stallTimeThreshold * 60,
+    })
 
     return (
         <Card
@@ -24,12 +24,16 @@ const OrderList = () => {
             classNames={{ title: 'text-xl font-bold' }}
         >
             <List itemLayout="horizontal">
-                {data.length > 0 ? (
-                    data.map((item) => (
-                        <List.Item key={item.id}>
-                            <OrderItem order={item} />
-                        </List.Item>
-                    ))
+                {!isLoading ? (
+                    data && data.length > 0 ? (
+                        data.map((item) => (
+                            <List.Item key={item.orderId}>
+                                <OrderItem order={mapServerOrder(item)} />
+                            </List.Item>
+                        ))
+                    ) : (
+                        <Empty />
+                    )
                 ) : (
                     <Skeleton active />
                 )}

@@ -145,7 +145,7 @@ const SettingsForm = () => {
                         <Form.Item<Settings>
                             label="Stall Time Threshold"
                             name={[key, 'stallTimeThreshold']}
-                            rules={[{ required: true }, { min: 0 }]}
+                            rules={[{ required: true }]}
                             validateFirst
                         >
                             <InputNumber addonAfter="Minutes" />
